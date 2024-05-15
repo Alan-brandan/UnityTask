@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+[RequireComponent(typeof(PlayerStateManager))]
 public class PlayerController : MonoBehaviour
 {
     public float walkSpeed = 0;
@@ -17,10 +18,12 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 finalMovingDirection;
     private Rigidbody2D _rb;
+    private PlayerStateManager playerstate;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        playerstate = GetComponent<PlayerStateManager>();
     }
 
     void Update()
@@ -36,10 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         if (GameManager.Instance.InputEnabled && GameManager.Instance.MovementEnabled)
         {
-            if (currentSpeed > 0) //&& !movmanager.isTouchingWall
-            {
-                _rb.velocity = finalMovingDirection * currentSpeed;
-            }
+            MovePlayer();
         }
     }
 
@@ -47,10 +47,12 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(Inputmanager.Instance.Run))
         {
+            playerstate.playerRunning = true;
             currentSpeed = runSpeed;
         }
-        else if (currentSpeed != walkSpeed)
+        else
         {
+            playerstate.playerRunning = false;
             currentSpeed = walkSpeed;
         }
 
@@ -76,6 +78,7 @@ public class PlayerController : MonoBehaviour
         {
             finalMovingDirection = new Vector2(finalMovingDirection.x, 0);
         }
+        playerstate.playerMovement = finalMovingDirection;
     }
 
     private void MovePlayer()
