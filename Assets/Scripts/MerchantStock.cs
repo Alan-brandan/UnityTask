@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class MerchantStock : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<InventoryItem> stock;
+
+    public void PurchaseItem(InventoryItem item)
     {
-        
+        if (stock.Contains(item))
+            stock[stock.IndexOf(item)].quantity++;
+        else
+            stock.Add(item);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SellItem(int index)
     {
-        
+        if (stock[index].quantity > 1)
+            stock[index].quantity--;
+        else
+            stock.RemoveAt(index);
     }
 }
