@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Merchant_1
   m_EditorClassIdentifier: 
   lines:
-  - hello there, youre new here arent cha?
-  - well allow me to introduce myself, im X
-  - Im a traveler merchant, want to see my wares?
+  - Oh? What's this? New here? I'm Whiskerina, chief meowrchant 'round these parts.
+  - "Looking for treasures, traveler? Meowvelous deals await you right here!\n\r"
+  - Step right up and let's see what catches your eye, my friend!

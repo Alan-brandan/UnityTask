@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class ButtonsIconsManager : MonoBehaviour
 {
-    public Sprite InteractJoystick, CancelJoystick, MovementJoystick, InteractKB, CancelKB, MovementKB;
-    public Image InteractIcon, CancelIcon, RunIcon, MovementIcon;
+    public Sprite InteractJoystick, CancelJoystick, MovementJoystick,InventoryJoystick, InteractKB, CancelKB, MovementKB,InventoryKB;
+    public Image InteractIcon, CancelIcon, RunIcon, MovementIcon,InventoryIcon;
 
     private bool currentlyUsingJoystick;
 
@@ -34,6 +34,8 @@ public class ButtonsIconsManager : MonoBehaviour
         RunIcon.sprite = CancelJoystick;
         ModifyRectSize(MovementIcon, 60);
         MovementIcon.sprite = MovementJoystick;
+        ModifyRectSize(InventoryIcon, 60);
+        InventoryIcon.sprite = InventoryJoystick;
     }
     public void SwitchControlsToKeyboard()
     {
@@ -45,6 +47,8 @@ public class ButtonsIconsManager : MonoBehaviour
         RunIcon.sprite = CancelKB;
         ModifyRectSize(MovementIcon, 90);
         MovementIcon.sprite = MovementKB;
+        ModifyRectSize(MovementIcon, 90);
+        InventoryIcon.sprite = InventoryKB;
     }
 
     private void ModifyRectSize(Image img, float newvalue)

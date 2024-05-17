@@ -8,6 +8,7 @@ public class PlayerInventory : MonoBehaviour
 {
     public List<TradeableItem> stock;
 
+    public PlayerSkinManager playerskin;
 
     #region Singleton
     private static PlayerInventory _instance = null;
@@ -29,8 +30,12 @@ public class PlayerInventory : MonoBehaviour
 
     }
 
-    public void PurchaseItem(TradeableItem item)
+    public void ChangePlayerTop(GameObject newshirt)
     {
-
+        playerskin.ChangeTop(newshirt);
+    }
+    public void ChangePlayerBottom(GameObject newshirt)
+    {
+        playerskin.ChangeBottom(newshirt);
     }
 }

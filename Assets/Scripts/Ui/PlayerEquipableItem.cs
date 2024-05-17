@@ -18,6 +18,13 @@ public class PlayerEquipableItem : MonoBehaviour
 
     public void EquipToPlayer()
     {
-
+        if (item.type == 0)
+        {
+            PlayerInventory.Instance.ChangePlayerTop(item.prefab);
+        }
+        else
+        {
+            PlayerInventory.Instance.ChangePlayerBottom(item.prefab);
+        }
     }
 }

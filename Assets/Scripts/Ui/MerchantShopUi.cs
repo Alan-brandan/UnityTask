@@ -15,7 +15,7 @@ public class MerchantShopUi : MonoBehaviour
     {
         GameManager.Instance.MovementEnabled = false;
         GameManager.Instance.NavigatingMenu = true;
-
+        print("onenable called");
         PopulateOrUpdateShop();
     }
 
@@ -50,6 +50,7 @@ public class MerchantShopUi : MonoBehaviour
             {
                 obj = Instantiate(ItemPrefab, transform);
             }
+            print("populate init");
 
             ItemEntryUi itemEntry = obj.GetComponent<ItemEntryUi>();
             itemEntry.item = item;

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83bd589c6c8923b40bfc7b937de76323, type: 3}
+  m_Name: Jeans
+  m_EditorClassIdentifier: 
+  itemName: Denim Classic
+  itemDescription: Timeless and versatile, these denim jeans are a wardrobe essential.
+    With a classic fit and durable construction, they effortlessly complement any
+    casual or semi-casual ensemble.
+  itemIcon: {fileID: -97778123, guid: 3d9fb1439c22a484ea2ada7969426812, type: 3}
+  TypeIcon: {fileID: 1099793936, guid: e40e30492546ef848a22fd1925d94d53, type: 3}
+  type: 1
+  itemCost: 10
+  prefab: {fileID: 8396565904289724038, guid: e1451a9962fccb249a8d0bd23ffcbd0d, type: 3}

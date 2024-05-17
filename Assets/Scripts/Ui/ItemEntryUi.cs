@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,7 +8,7 @@ using UnityEngine.UI;
 public class ItemEntryUi : MonoBehaviour
 {
     public TradeableItem item;
-    public TextMeshProUGUI title, description, price;
+    public TextMeshProUGUI price;
     public Image icon, type;
 
     private Button btn;
@@ -17,18 +16,27 @@ public class ItemEntryUi : MonoBehaviour
     public void Initialize()
     {
         btn = GetComponentInChildren<Button>();
-
-        if (title!=null)
-            title.text = item.itemName;
-        if(description!=null)
-            description.text = item.itemDescription;
         price.text = item.itemCost.ToString();
         icon.sprite = item.itemIcon;
+        type.sprite = item.TypeIcon;
 
-        if (TransactionManager.Instance.Gold < item.itemCost)
+
+        if (PlayerInventory.Instance.stock.Contains(item))
         {
             btn.interactable = false;
             price.color = Color.red;
+            price.fontSize = 11;
+            price.text = "SOLD OUT";
+        }
+        else if (TransactionManager.Instance.Gold < item.itemCost)
+        {
+            btn.interactable = false;
+            price.color = Color.red;
+        }
+        else
+        {
+            btn.interactable = true;
+            price.color = Color.black;
         }
     }
 

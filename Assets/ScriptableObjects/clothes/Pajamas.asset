@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83bd589c6c8923b40bfc7b937de76323, type: 3}
+  m_Name: Pajamas
+  m_EditorClassIdentifier: 
+  itemName: Striped Pajama
+  itemDescription: These cozy, lounge-worthy pajama pants feature a playful striped
+    pattern in soothing colors, perfect for a restful night's sleep or lazy weekends
+    at home.
+  itemIcon: {fileID: 1111881225, guid: 3d9fb1439c22a484ea2ada7969426812, type: 3}
+  TypeIcon: {fileID: 1099793936, guid: e40e30492546ef848a22fd1925d94d53, type: 3}
+  type: 1
+  itemCost: 7
+  prefab: {fileID: 2666660409559709336, guid: 498137543e5f45241b2fa2b916edf70d, type: 3}

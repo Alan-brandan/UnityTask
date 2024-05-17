@@ -16,7 +16,7 @@ public class DialogueManager : MonoBehaviour
     private bool playerDetected = false; 
 
     public Vector3 dialoguepos;
-
+    bool justchatted = false;
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -46,16 +46,20 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.canStartDialogues && playerDetected)
+        if (playerDetected)
         {
-            if (Input.GetKeyDown(Inputmanager.Instance.Interact) && !CanvasManager.Instance.merchantOptions.activeSelf)
+            if(!GameManager.Instance.NavigatingMenu && justchatted)
+            {
+                StartCoroutine(DelayToInteractAgain());
+            }
+
+            if (!justchatted && Input.GetKeyDown(Inputmanager.Instance.Interact) && !CanvasManager.Instance.merchantOptions.activeSelf)
             {
                 if (!GameManager.Instance.playerInConversation && !GameManager.Instance.NavigatingMenu && Interactable)
                 {
                     showingHelpPanel = false;
                     CanvasManager.Instance.helppanel.StartHideAllCoroutine();
                     StartDialogue();
-                    print("detected interact button");
                 }
                 else if(!GameManager.Instance.NavigatingMenu)
                 {
@@ -63,7 +67,7 @@ public class DialogueManager : MonoBehaviour
                 }
             }
 
-            if (!GameManager.Instance.playerInConversation && !GameManager.Instance.NavigatingMenu && !showingHelpPanel && Interactable)
+            if (!justchatted && !GameManager.Instance.playerInConversation && !GameManager.Instance.NavigatingMenu && !showingHelpPanel && Interactable)
             {
                 CanvasManager.Instance.helppanel.StartHelpPanelCoroutine(false, "", true, false, false);
                 showingHelpPanel = true;
@@ -114,21 +118,19 @@ public class DialogueManager : MonoBehaviour
         if(timesVisited < Dialogues.Length-1)
             timesVisited++;
         OpenShop();
-        StartCoroutine(DelayToInteractAgain());
+        justchatted = true;
     }
 
     private IEnumerator DelayToInteractAgain()
     {
         yield return new WaitForSeconds(InteractionCooldown);
         Interactable = true;
+        justchatted = false;
+
     }
 
     public void OpenShop()
     {
-        if (GameManager.Instance.NavigatingMenu)
-            return;
-        print("open options");
-        GameManager.Instance.canStartDialogues = false;
         GameManager.Instance.MovementEnabled = false;
         GameManager.Instance.NavigatingMenu = true;
         CanvasManager.Instance.merchantOptions.SetActive(true);

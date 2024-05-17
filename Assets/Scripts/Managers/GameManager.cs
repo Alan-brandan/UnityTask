@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public bool MovementEnabled,InputEnabled,playerInConversation,NavigatingMenu,canStartDialogues,inventoryopen;
+    public bool MovementEnabled,InputEnabled,playerInConversation,NavigatingMenu,inventoryopen;
 
     public LayerMask playerLayer;
 

@@ -28,16 +28,24 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.InputEnabled && GameManager.Instance.MovementEnabled)
+        if (GameManager.Instance.InputEnabled && GameManager.Instance.MovementEnabled && !GameManager.Instance.playerInConversation)
         {
             HandleInput();
             CalculateMovingDirection();
+        }
+        if (GameManager.Instance.playerInConversation || GameManager.Instance.inventoryopen)
+        {
+            xMoveDirection = yMoveDirection= 0;
+            currentSpeed = 0;
+            playerstate.playerMovement = finalMovingDirection = Vector2.zero;
+            _rb.velocity = Vector2.zero;
+            
         }
     }
 
     private void FixedUpdate()
     {
-        if (GameManager.Instance.InputEnabled && GameManager.Instance.MovementEnabled)
+        if (GameManager.Instance.InputEnabled && GameManager.Instance.MovementEnabled && !GameManager.Instance.playerInConversation)
         {
             MovePlayer();
         }

@@ -34,7 +34,6 @@ public class ShopOptions : MonoBehaviour
     {
         GameManager.Instance.MovementEnabled = true;
         GameManager.Instance.NavigatingMenu = false;
-        GameManager.Instance.canStartDialogues = true;
         CanvasManager.Instance.merchantOptions.SetActive(false);
     }
 }

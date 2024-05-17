@@ -9,6 +9,7 @@ public class CanvasManager : MonoBehaviour
     public GameObject merchantOptions;
     public GameObject ConfirmPurchase;
     public ItemInfoPanelUi ShopItemInfo;
+    public GameObject PlayerInventory;
 
     public TextMeshProUGUI MoneyValue;
     public GameObject dialogueBubble;
@@ -34,14 +35,32 @@ public class CanvasManager : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(Inputmanager.Instance.Inventory))
+        {
+            if (!GameManager.Instance.playerInConversation && !GameManager.Instance.inventoryopen)
+            {
+                PlayerInventory.SetActive(true);
+                GameManager.Instance.inventoryopen = true;
+            }
+            else if (GameManager.Instance.inventoryopen)
+            {
+                PlayerInventory.SetActive(false);
+                GameManager.Instance.inventoryopen = false;
+            }
+        }
+    }
+
+
+
     public void ShowDialogueBubble(string text,Vector3 worldpos)
     {
         dialogueBubble.GetComponentInChildren<TextMeshProUGUI>().text = text;
 
-        //convertpos
+        
+        dialogueBubble.SetActive(true);
 
-        if(!dialogueBubble.activeSelf)
-            dialogueBubble.SetActive(true);
     }
     public void HideDialogueBubble()
     {

@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83bd589c6c8923b40bfc7b937de76323, type: 3}
   m_Name: BlackJacket
   m_EditorClassIdentifier: 
-  itemName: Black Jacket
-  itemDescription: Embrace the shadows in style with this sleek black jacket. Crafted
-    for comfort and durability, it's the perfect accessory for any gaming adventure.
-  itemIcon: {fileID: 0}
+  itemName: Midnight Rebel Jacket
+  itemDescription: Channel your inner rebel with this edgy punk jacket. Crafted from
+    high-quality black leather, it features intricate punk-inspired detailing and
+    hardware, adding an instant dose of attitude to any outfit.
+  itemIcon: {fileID: -1607543995, guid: 3d9fb1439c22a484ea2ada7969426812, type: 3}
+  TypeIcon: {fileID: 1315890041, guid: e40e30492546ef848a22fd1925d94d53, type: 3}
+  type: 0
   itemCost: 20
+  prefab: {fileID: 7323451816211701420, guid: 7c16ec3f6acaab84294fedff2d065c55, type: 3}

@@ -8,8 +8,4 @@ public class PlayerStateManager : MonoBehaviour
     public bool playerTouchingWall;
     public Vector2 playerMovement;
 
-    private void Update()
-    {
-        
-    }
 }

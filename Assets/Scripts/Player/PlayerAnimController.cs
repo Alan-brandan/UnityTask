@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class PlayerAnimController : MonoBehaviour
 {
-    public PlayerStateManager playerStates;
+    private PlayerStateManager playerStates;
 
     private Animator anim;
-    private string currentAnimState;
+    public string currentAnimState;
     public string previousAnim;
-
-    private void Awake()
-    {
-        anim = GetComponent<Animator>();
-    }
 
     #region Assigning animations
     const string IDLE_DOWN = "idleDown";
@@ -30,67 +25,87 @@ public class PlayerAnimController : MonoBehaviour
     const string RUN_RIGHT = "runRight";
     #endregion
 
-    public void ChangeAnimationState(string newState)
+    private void Awake()
     {
-        if (currentAnimState == newState) return;
-        previousAnim = currentAnimState;
-        anim.Play(newState);
-        currentAnimState = newState;
+        anim = GetComponent<Animator>();
+        playerStates = transform.GetComponentInParent<PlayerStateManager>();
     }
 
-    void Update()
+    private void Update()
     {
         if (playerStates != null && anim != null)
         {
-            if (playerStates.playerMovement != Vector2.zero)
+            string targetAnim = GetTargetAnimation();
+            if (targetAnim != currentAnimState)
             {
-                if (playerStates.playerRunning)
-                {
-                    if (playerStates.playerMovement.x != 0)
-                    {
-                        ChangeAnimationState(playerStates.playerMovement.x > 0 ? RUN_RIGHT : RUN_LEFT);
-                    }
-                    else if (playerStates.playerMovement.y != 0)
-                    {
-                        ChangeAnimationState(playerStates.playerMovement.y > 0 ? RUN_UP : RUN_DOWN);
-                    }
-                }
-                else
-                {
-                    if (playerStates.playerMovement.x != 0)
-                    {
-                        ChangeAnimationState(playerStates.playerMovement.x > 0 ? WALK_RIGHT : WALK_LEFT);
-                    }
-                    else if (playerStates.playerMovement.y != 0)
-                    {
-                        ChangeAnimationState(playerStates.playerMovement.y > 0 ? WALK_UP : WALK_DOWN);
-                    }
-                }
+                ChangeAnimationState(targetAnim);
             }
-            else
-            {
-                switch (previousAnim)
-                {
-                    case RUN_LEFT:
-                    case WALK_LEFT:
-                        ChangeAnimationState(IDLE_LEFT);
-                        break;
-                    case RUN_RIGHT:
-                    case WALK_RIGHT:
-                        ChangeAnimationState(IDLE_RIGHT);
-                        break;
-                    case RUN_UP:
-                    case WALK_UP:
-                        ChangeAnimationState(IDLE_UP);
-                        break;
-                    case RUN_DOWN:
-                    case WALK_DOWN:
-                        ChangeAnimationState(IDLE_DOWN);
-                        break;
-                    default:
-                        break;
-                }
-            }
+        }
+    }
+
+    private string GetTargetAnimation()
+    {
+        if (playerStates.playerMovement.magnitude > 0)
+        {
+            string movementDirection = GetMovementDirection(playerStates.playerMovement);
+            return playerStates.playerRunning ? GetRunAnimation(movementDirection) : GetWalkAnimation(movementDirection);
+        }
+        else
+        {
+            return GetIdleAnimation(previousAnim);
+        }
+    }
+
+    private string GetMovementDirection(Vector2 movement)
+    {
+        if (Mathf.Abs(movement.x) > Mathf.Abs(movement.y))
+        {
+            return movement.x > 0 ? "Right" : "Left";
+        }
+        else
+        {
+            return movement.y > 0 ? "Up" : "Down";
+        }
+    }
+
+    private string GetRunAnimation(string direction)
+    {
+        return "run" + direction;
+    }
+
+    private string GetWalkAnimation(string direction)
+    {
+        return "walk" + direction;
+    }
+
+    private string GetIdleAnimation(string previousAnimation)
+    {
+        switch (previousAnimation)
+        {
+            case RUN_LEFT:
+            case WALK_LEFT:
+                return IDLE_LEFT;
+            case RUN_RIGHT:
+            case WALK_RIGHT:
+                return IDLE_RIGHT;
+            case RUN_UP:
+            case WALK_UP:
+                return IDLE_UP;
+            case RUN_DOWN:
+            case WALK_DOWN:
+                return IDLE_DOWN;
+            default:
+                return IDLE_DOWN; 
+        }
+    }
+
+    public void ChangeAnimationState(string newState)
+    {
+        if (currentAnimState != newState)
+        {
+            anim.Play(newState);
+            previousAnim = currentAnimState;
+            currentAnimState = newState;
         }
     }
 }

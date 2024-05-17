@@ -14,6 +14,7 @@ public class Inputmanager : MonoBehaviour
 
     public KeyCode Interact;
     public KeyCode Run;
+    public KeyCode Inventory;
 
     public enum Mode {Keyboard,Joystick }
     public Mode InputMode = Mode.Joystick;
@@ -53,6 +54,7 @@ public class Inputmanager : MonoBehaviour
 
                     Interact = KeyCode.Joystick1Button0;
                     Run = KeyCode.Joystick1Button1;
+                    Inventory = KeyCode.Joystick1Button7;
 
                 }
                 //keyboard axis
@@ -78,6 +80,7 @@ public class Inputmanager : MonoBehaviour
 
                     Interact = KeyCode.Return;
                     Run = KeyCode.LeftShift;
+                    Inventory = KeyCode.Escape;
 
                 }
                 //joystick axis
