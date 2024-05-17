@@ -26,12 +26,24 @@ public class TransactionManager : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        UpdateGoldUi();
+    }
+
     public void AddGold(int amount)
     {
         Gold += amount;
+        UpdateGoldUi();
     }
     public void SubstractGold(int amount)
     {
         Gold -= amount;
+        UpdateGoldUi();
+    }
+
+    public void UpdateGoldUi()
+    {
+        CanvasManager.Instance.MoneyValue.text = Gold.ToString();
     }
 }

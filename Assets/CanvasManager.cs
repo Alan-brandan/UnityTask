@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class CanvasManager : MonoBehaviour
 {
-    public bool MovementEnabled,InputEnabled;
-
-    public LayerMask playerLayer;
+    public GameObject merchantStore;
+    public TextMeshProUGUI MoneyValue;
 
 
     #region Singleton
-    private static GameManager _instance = null;
-    public static GameManager Instance { get { return _instance; } }
+    private static CanvasManager _instance = null;
+    public static CanvasManager Instance { get { return _instance; } }
     #endregion
     private void Awake()
     {
