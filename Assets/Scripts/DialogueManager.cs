@@ -13,7 +13,9 @@ public class DialogueManager : MonoBehaviour
     public float InteractionCooldown;
 
     private bool showingHelpPanel = false;
-    private bool playerDetected = false;
+    private bool playerDetected = false; 
+
+
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -21,7 +23,7 @@ public class DialogueManager : MonoBehaviour
         {
             if (!showingHelpPanel && Interactable)
             {
-                StartCoroutine(CanvasManager.Instance.helppanel.ShowHelpPanel(false, "", true, false, false));
+                CanvasManager.Instance.helppanel.StartHelpPanelCoroutine(false, "", true, false, false);
                 showingHelpPanel = true;
             }
             playerDetected = true;
@@ -35,7 +37,7 @@ public class DialogueManager : MonoBehaviour
             if (showingHelpPanel)
             {
                 showingHelpPanel = false;
-                StartCoroutine(CanvasManager.Instance.helppanel.HideAll());
+                CanvasManager.Instance.helppanel.StartHideAllCoroutine();
             }
             playerDetected = false;
         }
@@ -43,17 +45,18 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (playerDetected)
+        if (GameManager.Instance.canStartDialogues && playerDetected)
         {
-            if (Input.GetKeyDown(Inputmanager.Instance.Interact))
+            if (Input.GetKeyDown(Inputmanager.Instance.Interact) && !CanvasManager.Instance.merchantOptions.activeSelf)
             {
-                if (!GameManager.Instance.playerInConversation && !GameManager.Instance.NavigatingMenu)
+                if (!GameManager.Instance.playerInConversation && !GameManager.Instance.NavigatingMenu && Interactable)
                 {
                     showingHelpPanel = false;
-                    StartCoroutine(CanvasManager.Instance.helppanel.HideAll());
+                    CanvasManager.Instance.helppanel.StartHideAllCoroutine();
                     StartDialogue();
+                    print("detected interact button");
                 }
-                else
+                else if(!GameManager.Instance.NavigatingMenu)
                 {
                     ShowNextDialogue();
                 }
@@ -61,7 +64,7 @@ public class DialogueManager : MonoBehaviour
 
             if (!GameManager.Instance.playerInConversation && !GameManager.Instance.NavigatingMenu && !showingHelpPanel && Interactable)
             {
-                StartCoroutine(CanvasManager.Instance.helppanel.ShowHelpPanel(false, "", true, false, false));
+                CanvasManager.Instance.helppanel.StartHelpPanelCoroutine(false, "", true, false, false);
                 showingHelpPanel = true;
             }
         }
@@ -69,6 +72,9 @@ public class DialogueManager : MonoBehaviour
 
     private void StartDialogue()
     {
+        print("start dialogue");
+        CanvasManager.Instance.helppanel.StartHelpPanelCoroutine(false, "", true, false, false, 0.2f);
+
         Interactable = false;
         GameManager.Instance.MovementEnabled = false;
         GameManager.Instance.playerInConversation = true;
@@ -91,19 +97,23 @@ public class DialogueManager : MonoBehaviour
 
     private void ShowNextDialogue()
     {
+        if (GameManager.Instance.NavigatingMenu)
+            return;
         currentDialogueIndex++;
         ShowDialogue();
     }
 
     private void EndDialogue()
     {
+        if (GameManager.Instance.NavigatingMenu)
+            return;
+
         CanvasManager.Instance.HideDialogueBubble();
         GameManager.Instance.playerInConversation = false;
         if(timesVisited < Dialogues.Length-1)
             timesVisited++;
+        OpenShop();
         StartCoroutine(DelayToInteractAgain());
-        if(!GameManager.Instance.NavigatingMenu)
-            OpenShop();
     }
 
     private IEnumerator DelayToInteractAgain()
@@ -114,6 +124,10 @@ public class DialogueManager : MonoBehaviour
 
     public void OpenShop()
     {
+        if (GameManager.Instance.NavigatingMenu)
+            return;
+        print("open options");
+        GameManager.Instance.canStartDialogues = false;
         GameManager.Instance.MovementEnabled = false;
         GameManager.Instance.NavigatingMenu = true;
         CanvasManager.Instance.merchantOptions.SetActive(true);

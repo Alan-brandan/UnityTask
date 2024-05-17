@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Plain T-Shirt
   itemDescription: just your plain old T-shirt
   itemIcon: {fileID: 0}
-  itemCost: 55
+  itemCost: 8

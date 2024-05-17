@@ -4,49 +4,45 @@ using TMPro;
 using UnityEditor.ShaderGraph;
 using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class HelpPanelManager : MonoBehaviour
 {
     public GameObject panel,Controls,FirstTimeControls;
     public TextMeshProUGUI MessageDisplay;
-    private bool currentlyUsingJoystick;
 
     [Range(0.1f,10)]
     public float FirstTimeControlsLifetime;
 
     public bool helpanelActive;
 
+    private Coroutine helpPanelCoroutine;
+    private Coroutine hideAllCoroutine;
 
     private void Start()
     {
         StartCoroutine(ShowHelpPanel(false,"",false,false,true));
     }
 
-    void Update()
+    public void StartHelpPanelCoroutine(bool showMessage, string text, bool showControls, bool showCancel, bool showFirstTimeControls, float duration = 0.5f)
     {
-        if(currentlyUsingJoystick && Inputmanager.Instance.InputState == Inputmanager.InputType.MouseKeyboard)
+        if (helpPanelCoroutine != null)
         {
-            SwitchControlsToKeyboard();
-            currentlyUsingJoystick = false;
+            StopCoroutine(helpPanelCoroutine);
         }
-        else if (!currentlyUsingJoystick && Inputmanager.Instance.InputState == Inputmanager.InputType.Controller)
+        helpPanelCoroutine = StartCoroutine(ShowHelpPanel(showMessage, text, showControls, showCancel, showFirstTimeControls, duration));
+    }
+
+    public void StartHideAllCoroutine()
+    {
+        if (hideAllCoroutine != null)
         {
-            SwitchControlsToJoystick();
-            currentlyUsingJoystick = true;
+            StopCoroutine(hideAllCoroutine);
         }
+        hideAllCoroutine = StartCoroutine(HideAll());
     }
 
-    public void SwitchControlsToJoystick()
-    {
-
-    }
-    public void SwitchControlsToKeyboard()
-    {
-
-    }
-
-    public IEnumerator ShowHelpPanel(bool showMessage, string text, bool showControls, bool showCancel, bool showFirstTimeControls)
+    private IEnumerator ShowHelpPanel(bool showMessage, string text, bool showControls, bool showCancel, bool showFirstTimeControls, float duration=0.5f)
     {
         panel.SetActive(true);
 
@@ -66,18 +62,121 @@ public class HelpPanelManager : MonoBehaviour
         else if (showFirstTimeControls)
         {
             FirstTimeControls.SetActive(true);
+        }
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float t = Mathf.SmoothStep(0f, 1f, elapsedTime / duration);
+
+            foreach (Transform child in transform)
+            {
+                Image image = child.GetComponent<Image>();
+                if (image != null)
+                {
+                    Color color = image.color;
+                    color.a = Mathf.Lerp(0f, 0.8f, t);
+                    image.color = color;
+                }
+
+                TextMeshProUGUI _text = child.GetComponent<TextMeshProUGUI>();
+                if (_text != null)
+                {
+                    _text.overrideColorTags = true;
+                    Color32 color = _text.color;
+                    color.a = (byte)Mathf.Lerp(0f, 255f, t);
+                    _text.color = color;
+                }
+            }
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        foreach (Transform child in transform)
+        {
+            Image image = child.GetComponent<Image>();
+            if (image != null)
+            {
+                Color color = image.color;
+                color.a = 0.8f;
+                image.color = color;
+            }
+
+            TextMeshProUGUI _text = child.GetComponent<TextMeshProUGUI>();
+            if (_text != null)
+            {
+                _text.overrideColorTags = true;
+                Color32 color = _text.color;
+                color.a = 255;
+                _text.color = color;
+            }
+        }
+
+        if (showFirstTimeControls)
+        {
             yield return new WaitForSeconds(FirstTimeControlsLifetime);
             StartCoroutine(HideAll());
         }
     }
 
-    public IEnumerator HideAll()
+    private IEnumerator HideAll()
     {
-        yield return new WaitForSeconds(0.1f);
-        panel.SetActive(false);
+        float duration =  0.5f;
 
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float t = Mathf.SmoothStep(0f, 1f, elapsedTime / duration);
+
+            foreach (Transform child in transform)
+            {
+                Image image = child.GetComponent<Image>();
+                if (image != null)
+                {
+                    Color color = image.color;
+                    color.a = Mathf.Lerp(0.8f, 0f, t);
+                    image.color = color;
+                }
+
+                TextMeshProUGUI _text = child.GetComponent<TextMeshProUGUI>();
+                if (_text != null)
+                {
+                    Color32 color = _text.color;
+                    color.a = (byte)Mathf.Lerp(255f, 0f, t);
+                    _text.color = color;
+                }
+            }
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        foreach (Transform child in transform)
+        {
+            Image image = child.GetComponent<Image>();
+            if (image != null)
+            {
+                Color color = image.color;
+                color.a = 0f;
+                image.color = color;
+            }
+
+            TextMeshProUGUI _text = child.GetComponent<TextMeshProUGUI>();
+            if (_text != null)
+            {
+                Color32 color = _text.color;
+                color.a = 0;
+                _text.color = color;
+            }
+        }
+
+        panel.SetActive(false);
         MessageDisplay.gameObject.SetActive(false);
         Controls.SetActive(false);
         FirstTimeControls.SetActive(false);
+
     }
 }

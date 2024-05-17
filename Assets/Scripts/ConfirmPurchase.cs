@@ -3,9 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
-public class ShopOptions : MonoBehaviour
+public class ConfirmPurchase : MonoBehaviour
 {
+    public TradeableItem item;
+
+    public void PurchaseItem()
+    {
+        TransactionManager.Instance.SubstractGold(item.itemCost);
+        PlayerInventory.Instance.stock.Add(item);
+        CanvasManager.Instance.merchantStore.GetComponentInChildren<MerchantShopUi>().PopulateOrUpdateShop();
+    }
+
     private void OnEnable()
     {
         bool firstSelected = false;
@@ -22,19 +32,16 @@ public class ShopOptions : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        CanvasManager.Instance.merchantStore.GetComponentInChildren<MerchantShopUi>().PopulateOrUpdateShop();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(Inputmanager.Instance.Run))
         {
-            CloseAndReenableMov();
+            CanvasManager.Instance.ConfirmPurchase.SetActive(false);
         }
-    }
-
-    public void CloseAndReenableMov()
-    {
-        GameManager.Instance.MovementEnabled = true;
-        GameManager.Instance.NavigatingMenu = false;
-        GameManager.Instance.canStartDialogues = true;
-        CanvasManager.Instance.merchantOptions.SetActive(false);
     }
 }

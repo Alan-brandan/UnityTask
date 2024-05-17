@@ -7,6 +7,8 @@ public class CanvasManager : MonoBehaviour
 {
     public GameObject merchantStore;
     public GameObject merchantOptions;
+    public GameObject ConfirmPurchase;
+    public ItemInfoPanelUi ShopItemInfo;
 
     public TextMeshProUGUI MoneyValue;
     public GameObject dialogueBubble;

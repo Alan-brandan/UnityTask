@@ -538,7 +538,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7823551288740623852}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1012681806876710239}
+        m_TargetAssemblyTypeName: ItemEntryUi, Assembly-CSharp
+        m_MethodName: OpenConfirmPurchase
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8567372967629364705
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83bd589c6c8923b40bfc7b937de76323, type: 3}
   m_Name: CasualShirt
   m_EditorClassIdentifier: 
-  itemName: Casual Gray Shirt
+  itemName: Casual Shirt
   itemDescription: ...
   itemIcon: {fileID: 0}
-  itemCost: 0
+  itemCost: 12

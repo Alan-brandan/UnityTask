@@ -1,21 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static Unity.Collections.AllocatorManager;
 
-public class MerchantShopUi : MonoBehaviour
+public class PlayerInventoryUi : MonoBehaviour
 {
     public GameObject ItemPrefab;
-
-    public List<TradeableItem> stock;
 
     private void OnEnable()
     {
         GameManager.Instance.MovementEnabled = false;
         GameManager.Instance.NavigatingMenu = true;
-
+        GameManager.Instance.inventoryopen = true;
         PopulateOrUpdateShop();
     }
 
@@ -23,6 +21,8 @@ public class MerchantShopUi : MonoBehaviour
     {
         GameManager.Instance.MovementEnabled = true;
         GameManager.Instance.NavigatingMenu = false;
+        GameManager.Instance.inventoryopen = false;
+
     }
 
     private void Update()
@@ -38,7 +38,7 @@ public class MerchantShopUi : MonoBehaviour
 
     public void PopulateOrUpdateShop()
     {
-        foreach (TradeableItem item in stock)
+        foreach (TradeableItem item in PlayerInventory.Instance.stock)
         {
             Transform existingItem = FindExistingItem(item);
             GameObject obj;
@@ -51,7 +51,7 @@ public class MerchantShopUi : MonoBehaviour
                 obj = Instantiate(ItemPrefab, transform);
             }
 
-            ItemEntryUi itemEntry = obj.GetComponent<ItemEntryUi>();
+            PlayerEquipableItem itemEntry = obj.GetComponent<PlayerEquipableItem>();
             itemEntry.item = item;
             itemEntry.Initialize();
 
