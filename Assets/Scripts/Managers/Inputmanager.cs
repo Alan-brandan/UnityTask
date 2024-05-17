@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Inputmanager : MonoBehaviour
 {
@@ -64,6 +65,9 @@ public class Inputmanager : MonoBehaviour
                 else if (Input.GetKey(KeyCode.DownArrow)) { padY = -1; }
                 else { padY = 0; }
 
+                EventSystem.current.gameObject.GetComponent<StandaloneInputModule>().horizontalAxis = "Horizontal";
+                EventSystem.current.gameObject.GetComponent<StandaloneInputModule>().verticalAxis = "Vertical";
+
                 break;
             case InputType.Controller:
                 if (isMouseKeyboard())
@@ -82,6 +86,10 @@ public class Inputmanager : MonoBehaviour
 
                 lStickX = Input.GetAxis("LeftStickX");
                 lStickY = Input.GetAxis("LeftStickY");
+
+                EventSystem.current.gameObject.GetComponent<StandaloneInputModule>().horizontalAxis = "DPad X";
+                EventSystem.current.gameObject.GetComponent<StandaloneInputModule>().verticalAxis = "DPad Y";
+
 
                 break;
         }

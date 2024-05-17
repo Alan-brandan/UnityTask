@@ -1,17 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class CanvasManager : MonoBehaviour
+
+public class PlayerInventory : MonoBehaviour
 {
-    public GameObject merchantStore;
-    public TextMeshProUGUI MoneyValue;
+    public List<TradeableItem> stock;
 
 
     #region Singleton
-    private static CanvasManager _instance = null;
-    public static CanvasManager Instance { get { return _instance; } }
+    private static PlayerInventory _instance = null;
+    public static PlayerInventory Instance { get { return _instance; } }
     #endregion
     private void Awake()
     {
@@ -26,6 +26,11 @@ public class CanvasManager : MonoBehaviour
             //Debug.Log("this is the instance", this);
         }
         #endregion
+
+    }
+
+    public void PurchaseItem(TradeableItem item)
+    {
 
     }
 }
