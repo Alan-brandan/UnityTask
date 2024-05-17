@@ -15,6 +15,7 @@ public class DialogueManager : MonoBehaviour
     private bool showingHelpPanel = false;
     private bool playerDetected = false; 
 
+    public Vector3 dialoguepos;
 
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -87,7 +88,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (currentDialogueIndex < Dialogues[timesVisited].lines.Length)
         {
-            CanvasManager.Instance.ShowDialogueBubble(Dialogues[timesVisited].lines[currentDialogueIndex]);
+            CanvasManager.Instance.ShowDialogueBubble(Dialogues[timesVisited].lines[currentDialogueIndex],dialoguepos);
         }
         else
         {
@@ -131,5 +132,11 @@ public class DialogueManager : MonoBehaviour
         GameManager.Instance.MovementEnabled = false;
         GameManager.Instance.NavigatingMenu = true;
         CanvasManager.Instance.merchantOptions.SetActive(true);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(dialoguepos + transform.position, .1f);
     }
 }

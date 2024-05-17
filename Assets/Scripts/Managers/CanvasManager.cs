@@ -34,9 +34,12 @@ public class CanvasManager : MonoBehaviour
 
     }
 
-    public void ShowDialogueBubble(string text)
+    public void ShowDialogueBubble(string text,Vector3 worldpos)
     {
         dialogueBubble.GetComponentInChildren<TextMeshProUGUI>().text = text;
+
+        //convertpos
+
         if(!dialogueBubble.activeSelf)
             dialogueBubble.SetActive(true);
     }
